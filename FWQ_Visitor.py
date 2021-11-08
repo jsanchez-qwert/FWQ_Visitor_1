@@ -30,7 +30,7 @@ class ManageMovimeinto(threading.Thread):
         self.topic = topic
 
     def stop(self):
-        print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+        # print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
         self.stop_event.set()
 
     def objetivoAlcanzado(self, consumidor):
@@ -70,7 +70,7 @@ class ManageMovimeinto(threading.Thread):
             print("ERROR eligeObjetivo", e)
 
     def pintaMapa(self):
-        print("aaaaaaf")
+        # print("aaaaaaf")
         for i in range(0, len(self.mapa)):
             if i % 20 == 0:
                 print()
@@ -125,7 +125,7 @@ class ManageMovimeinto(threading.Thread):
         while (not self.stop_event.is_set()) and running:
             # print("aAAA")
             for msg in consumer:
-                print("RRRRRRRRRRRRRRr: ", running, " ", consumer.subscription())
+                print("running?: ", running, " ", consumer.subscription())
                 if not running:
                     mens = b'no'
                     producer.send(self.topic + 'in', mens)
@@ -157,12 +157,12 @@ class ManageMovimeinto(threading.Thread):
             print("FINAL MOVIMIENTO")
             return
         except Exception as e:
-            print("ERROR EN LectorSensores :", e)
+            print("ERROR EN ManageMovimeinto :", e)
             traceback.print_exc()
         finally:
             if 'consumer' in locals():
                 consumer.close()
-            print("FIN LectorMovimientos")
+            print("FIN ManageMovimeinto")
 
     def enAtraccion(self):
         loc = []
