@@ -304,11 +304,7 @@ def actualiza_perfil(ip, port) -> bool:
     return ret
 
 
-def pintaMenu():
-    print("R - Registro: Registra n nuevo usuario")
-    print("L - Login:  accede a la retransmision del mapa del parque")
-    print("U - Update: modifica un ususairo registrado")
-    print("Q - quit")
+
 
 
 def filtra(args: list) -> bool:
@@ -333,6 +329,32 @@ def filtra(args: list) -> bool:
     return True
 
 
+def login_api():
+    pass
+
+def registro_api():
+    pass
+
+def delete_api():
+    pass
+
+def update_api():
+    pass
+
+def read_api():
+    pass
+
+def pintaMenu(mode):
+    print("Modo Actual: ", mode)
+    print("""
+    Opciones:
+    mode    : modo de comunicacion con el login
+    login   : registra un nuevo usuario
+    update  : actualiza los datos de un usuario
+    add     : agrega un nuevo usuario
+    exit    : salir
+    """)
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     if not filtra(argv):
@@ -349,19 +371,57 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal_handler)
     running = True
     inn = ""
-    while inn != "q":
-        pintaMenu()
-        inn = input("opcion> ")
-        if inn == 'Q':
-            exit()
-        elif inn == 'R':
-            registra_perfil(ip_r, port_r)
-        elif inn == 'U':
-            actualiza_perfil(ip_r, port_r)
-        elif inn == 'L':
-            login()
-            # exit()
+    # a interactive menu to choose the action
+    command = ""
+    mode = 'socket'
+    while command not in ['q', 'Q', 'quit', 'exit']:
+        pintaMenu(mode)
+        command = input("\nopcion > ")
+        if command == "":
+            pintaMenu(mode)
+        elif command == 'mode':
+            aux = input("modo de comunicacion con el login (api/socket): ")
+            if aux not in ['api','socket']:
+                print("modo de comunicacio debe ser 'api o 'socket'")
+            else:
+                mode = aux
+        elif command == 'login':
+            if mode == 'socket':
+                login()
+            elif mode == 'api':
+                login_api()
+        elif command == 'update':
+            if mode == 'socket':
+                actualiza_perfil(ip_r, port_r)
+            elif mode == 'api':
+                update_api()
+        elif command == 'add':
+            if mode == 'socket':
+                registra_perfil(ip_r, port_r)
+            elif mode == 'api':
+                registro_api()
+        elif command == 'delete':
+            if mode == 'socket':
+                delete_perfil(ip_r, port_r)
+            elif mode == 'api':
+                delete_api()
+        elif command == 'update':
+            if mode == 'socket':
+                actualiza_perfil(ip_r, port_r)
+            elif mode == 'api':
+                update_api()
+        elif command == 'read':
+            if mode == 'socket':
+                read_perfil(ip_r, port_r)
+            elif mode == 'api':
+                read_api()
+        elif command == 'exit':
+            running = False
         else:
-            print("OPCION NO VALIDA")
+            print("Comando no reconocido")
+
+
+
+
     print("FINAL")
     exit()
